@@ -5,8 +5,9 @@ import {
 } from "#utils/validation.js";
 
 export const createWorkload = async (input: Workload) => {
-  if (NonNegativeNumberValidation(input.price) && hoursValidation(input.hours))
-    return await WorkloadModel.create(input);
+  hoursValidation(input.hours);
+  NonNegativeNumberValidation(input.price);
+  return await WorkloadModel.create(input);
 };
 
 export const getAllWorkloads = async () => {
@@ -18,8 +19,9 @@ export const getWorkloadById = async (id: string) => {
 };
 
 export const updateWorkloadById = async (id: string, input: Workload) => {
-  if (NonNegativeNumberValidation(input.price) && hoursValidation(input.hours))
-    return await WorkloadModel.findByIdAndUpdate(id, input, { new: true });
+  hoursValidation(input.hours);
+  NonNegativeNumberValidation(input.price);
+  return await WorkloadModel.findByIdAndUpdate(id, input, { new: true });
 };
 
 export const deleteWorkloadById = async (id: string) => {
