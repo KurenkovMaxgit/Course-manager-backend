@@ -1,9 +1,9 @@
 import { Group, GroupModel } from "#models/group.js";
-
-//TODO: Add validation where it`s needed
+import { NonNegativeNumberValidation } from "#utils/validation.js";
 
 export const createGroup = async (input: Group) => {
-  return await GroupModel.create(input);
+  if (NonNegativeNumberValidation(input.studentCount))
+    return await GroupModel.create(input);
 };
 
 export const getAllGroups = async () => {
@@ -15,7 +15,8 @@ export const getGroupById = async (id: string) => {
 };
 
 export const updateGroupById = async (id: string, input: Group) => {
-  return await GroupModel.findByIdAndUpdate(id, input, { new: true });
+  if (NonNegativeNumberValidation(input.studentCount))
+    return await GroupModel.findByIdAndUpdate(id, input, { new: true });
 };
 
 export const deleteGroupById = async (id: string) => {

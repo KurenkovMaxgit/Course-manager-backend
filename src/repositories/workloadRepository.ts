@@ -1,9 +1,12 @@
 import { Workload, WorkloadModel } from "#models/workload.js";
-
-//TODO: Add validation where it`s needed
+import {
+  NonNegativeNumberValidation,
+  hoursValidation,
+} from "#utils/validation.js";
 
 export const createWorkload = async (input: Workload) => {
-  return await WorkloadModel.create(input);
+  if (NonNegativeNumberValidation(input.price) && hoursValidation(input.hours))
+    return await WorkloadModel.create(input);
 };
 
 export const getAllWorkloads = async () => {
@@ -14,8 +17,9 @@ export const getWorkloadById = async (id: string) => {
   return await WorkloadModel.findOne({ _id: id });
 };
 
-export const updateWorkloadById = async (id: string) => {
-  return await WorkloadModel.findByIdAndUpdate(id);
+export const updateWorkloadById = async (id: string, input: Workload) => {
+  if (NonNegativeNumberValidation(input.price) && hoursValidation(input.hours))
+    return await WorkloadModel.findByIdAndUpdate(id, input, { new: true });
 };
 
 export const deleteWorkloadById = async (id: string) => {
