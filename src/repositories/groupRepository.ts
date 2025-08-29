@@ -20,5 +20,5 @@ export const updateGroupById = async (id: string, input: Group) => {
 };
 
 export const deleteGroupById = async (id: string) => {
-  return await GroupModel.deleteOne({ _id: id });
+  return await GroupModel.findByIdAndDelete({ _id: id });
 };
