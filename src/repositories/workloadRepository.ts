@@ -3,6 +3,7 @@ import {
   NonNegativeNumberValidation,
   hoursValidation,
 } from "#utils/validation.js";
+import { FilterQuery, SortOrder } from "mongoose";
 
 export const createWorkload = async (input: Workload) => {
   hoursValidation(input.hours);
@@ -10,8 +11,16 @@ export const createWorkload = async (input: Workload) => {
   return await WorkloadModel.create(input);
 };
 
-export const getAllWorkloads = async () => {
-  return await WorkloadModel.find();
+export const getAllWorkloads = async (
+  limit: number,
+  page: number,
+  filter: FilterQuery<Workload> = {},
+  sort: Record<string, SortOrder> = { _id: -1 },
+) => {
+  return await WorkloadModel.find(filter)
+    .limit(limit)
+    .skip((page - 1) * limit)
+    .sort(sort);
 };
 
 export const getWorkloadById = async (id: string) => {

@@ -1,4 +1,5 @@
 import { User, UserModel } from "#models/user.js";
+import { FilterQuery, SortOrder } from "mongoose";
 // Some plain CRUD funcs
 
 export const createUser = async (input: User) => {
@@ -9,8 +10,16 @@ export const createUser = async (input: User) => {
   return await UserModel.create(input);
 };
 
-export const getAllUsers = async () => {
-  return await UserModel.find();
+export const getAllUsers = async (
+  limit: number,
+  page: number,
+  filter: FilterQuery<User> = {},
+  sort: Record<string, SortOrder> = { createdAt: -1 },
+) => {
+  return await UserModel.find(filter)
+    .limit(limit)
+    .skip((page - 1) * limit)
+    .sort(sort);
 };
 
 export const getUserById = async (id: string) => {
@@ -18,10 +27,7 @@ export const getUserById = async (id: string) => {
 };
 
 export const getUserByEmail = async (email: string) => {
-  const user =  await UserModel.findOne({ email: email });
-  console.log("troObj", user?.toObject())
-  console.log("to obj + json", JSON.stringify(user?.toObject()))
-  console.log("to json", user?.toJSON())
+  const user = await UserModel.findOne({ email: email });
   return user;
 };
 
