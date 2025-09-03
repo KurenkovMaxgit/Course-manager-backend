@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as teacherRepository from "#repositories/teacherRepository.js";
 import { Teacher } from "#models/teacher.js";
+import { ParsedQuery } from "#middleware/queryParser.js";
 
 export const createTeacher = async (
   req: Request<{}, {}, Teacher>,
@@ -19,7 +20,14 @@ export const createTeacher = async (
 
 export const getAllTeachers = async (req: Request, res: Response) => {
   try {
-    const teachers = await teacherRepository.getAllTeachers();
+    const { limit, page, filter, sort } = (req as any)
+      .parsedQuery as ParsedQuery;
+    const teachers = await teacherRepository.getAllTeachers(
+      limit,
+      page,
+      filter,
+      sort,
+    );
     res.status(200).json(teachers);
   } catch (error) {
     console.log(error);

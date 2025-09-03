@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import * as workloadRepository from "#repositories/workloadRepository.js";
 import { Workload } from "#models/workload.js";
+import { FilterQuery, SortOrder } from "mongoose";
+import { Teacher } from "#models/teacher.js";
+import { ParsedQuery } from "#middleware/queryParser.js";
 
 export const createWorkload = async (
   req: Request<{}, {}, Workload>,
@@ -19,7 +22,14 @@ export const createWorkload = async (
 
 export const getAllWorkloads = async (req: Request, res: Response) => {
   try {
-    const workloads = await workloadRepository.getAllWorkloads();
+    const { limit, page, filter, sort } = (req as any)
+      .parsedQuery as ParsedQuery;
+    const workloads = await workloadRepository.getAllWorkloads(
+      limit,
+      page,
+      filter,
+      sort,
+    );
     res.status(200).json(workloads);
   } catch (error) {
     console.log(error);

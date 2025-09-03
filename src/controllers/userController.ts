@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as userRepository from "#repositories/userRepository.js";
 import { User } from "#models/user.js";
+import { ParsedQuery } from "#middleware/queryParser.js";
 
 export const createUser = async (req: Request<{}, {}, User>, res: Response) => {
   try {
@@ -16,7 +17,9 @@ export const createUser = async (req: Request<{}, {}, User>, res: Response) => {
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const users = await userRepository.getAllUsers();
+    const { limit, page, filter, sort } = (req as any)
+      .parsedQuery as ParsedQuery;
+    const users = await userRepository.getAllUsers(limit, page, filter, sort);
     res.status(200).json(users);
   } catch (error) {
     console.log(error);
