@@ -9,11 +9,11 @@ export const getAllSubjects = async (
   limit: number,
   page: number,
   filter: FilterQuery<Subject> = {},
-  sort: Record<string, SortOrder> = { createdAt: -1 },
+  sort: Record<string, SortOrder>,
 ) => {
   return await SubjectModel.find(filter)
     .limit(limit)
-    .skip((page - 1) * limit)
+    .skip(page * limit)
     .sort(sort);
 };
 

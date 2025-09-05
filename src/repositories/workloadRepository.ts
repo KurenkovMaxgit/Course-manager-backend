@@ -15,11 +15,11 @@ export const getAllWorkloads = async (
   limit: number,
   page: number,
   filter: FilterQuery<Workload> = {},
-  sort: Record<string, SortOrder> = { _id: -1 },
+  sort: Record<string, SortOrder>,
 ) => {
   return await WorkloadModel.find(filter)
     .limit(limit)
-    .skip((page - 1) * limit)
+    .skip(page * limit)
     .sort(sort);
 };
 

@@ -14,11 +14,11 @@ export const getAllUsers = async (
   limit: number,
   page: number,
   filter: FilterQuery<User> = {},
-  sort: Record<string, SortOrder> = { createdAt: -1 },
+  sort: Record<string, SortOrder>,
 ) => {
   return await UserModel.find(filter)
     .limit(limit)
-    .skip((page - 1) * limit)
+    .skip(page * limit)
     .sort(sort);
 };
 

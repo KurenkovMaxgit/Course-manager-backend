@@ -11,11 +11,11 @@ export const getAllGroups = async (
   limit: number,
   page: number,
   filter: FilterQuery<Group> = {},
-  sort: Record<string, SortOrder> = { createdAt: -1 },
+  sort: Record<string, SortOrder>,
 ) => {
   return await GroupModel.find(filter)
     .limit(limit)
-    .skip((page - 1) * limit)
+    .skip(page * limit)
     .sort(sort);
 };
 

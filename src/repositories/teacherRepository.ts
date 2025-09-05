@@ -11,11 +11,11 @@ export const getAllTeachers = async (
   limit: number,
   page: number,
   filter: FilterQuery<Teacher> = {},
-  sort: Record<string, SortOrder> = { createdAt: -1 },
+  sort: Record<string, SortOrder>,
 ) => {
   return await TeacherModel.find(filter)
     .limit(limit)
-    .skip((page - 1) * limit)
+    .skip(page * limit)
     .sort(sort);
 };
 
