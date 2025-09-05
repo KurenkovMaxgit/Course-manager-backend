@@ -14,13 +14,12 @@ export const queryParser = (
 ) => {
   const { limit, page, filter, sort } = req.query;
 
-  const parsedLimit = limit ? parseInt(limit as string, 10) : 10;
-  const parsedPage = page ? parseInt(page as string, 10) : 1;
-
+  const parsedLimit = limit ? parseInt(limit as string) : 10;
+  const parsedPage = page ? parseInt(page as string) : 1;
   let parsedFilter: Record<string, unknown> = {};
   if (filter) {
     try {
-      parsedFilter = JSON.parse(filter as string);
+      parsedFilter = JSON.parse(filter.toString());
     } catch {
       return res.status(400).json({ message: "Invalid filter JSON" });
     }
@@ -29,7 +28,7 @@ export const queryParser = (
   let parsedSort: Record<string, 1 | -1> = { _id: -1 };
   if (sort) {
     try {
-      parsedSort = JSON.parse(sort as string);
+      parsedSort = JSON.parse(sort.toString());
     } catch {
       return res.status(400).json({ message: "Invalid sort JSON" });
     }
