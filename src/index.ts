@@ -8,6 +8,7 @@ import lessonTypeRoutes from "#routes/lessonTypeRouter.js";
 import subjectRoutes from "#routes/subjectRouter.js";
 import teacherRoutes from "#routes/teacherRouter.js";
 import workloadRoutes from "#routes/workloadRouter.js";
+import { authentication } from "#middleware/authMiddleware.js";
 dotenv.config();
 connectDB();
 
@@ -17,11 +18,11 @@ app.use(cors());
 
 app.use(express.json());
 app.use("/api", authRoutes);
-app.use("/api", groupRoutes);
-app.use("/api", lessonTypeRoutes);
-app.use("/api", subjectRoutes);
-app.use("/api", teacherRoutes);
-app.use("/api", workloadRoutes);
+app.use("/api/group", groupRoutes);
+app.use("/lessonType/api", authentication, lessonTypeRoutes);
+app.use("/subject/api", subjectRoutes);
+app.use("/api/teacher", teacherRoutes);
+app.use("/workload/api", workloadRoutes);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running on port ${process.env.PORT}`),
