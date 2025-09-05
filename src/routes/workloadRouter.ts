@@ -4,12 +4,11 @@ import { authentication } from "#middleware/authMiddleware.js";
 import { queryParser } from "#middleware/queryParser.js";
 
 const router = Router();
-router.use(authentication);
 
-router.post("/workload", workloadController.createWorkload);
-router.get("/workload", queryParser, workloadController.getAllWorkloads);
-router.get("/workload/:id", workloadController.getWorkloadById);
-router.put("/workload/:id", workloadController.updateWorkloadById);
-router.delete("/workload/:id", workloadController.deleteWorkloadById);
+router.post("/", workloadController.createWorkload);
+router.get("/", queryParser, workloadController.getAllWorkloads);
+router.get("/:id", workloadController.getWorkloadById);
+router.put("/:id", workloadController.updateWorkloadById);
+router.delete("/:id", workloadController.deleteWorkloadById);
 
 export default router;
