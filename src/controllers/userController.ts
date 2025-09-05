@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as userRepository from "#repositories/userRepository.js";
-import { User } from "#models/user.js";
+import { User, UserModel } from "#models/user.js";
 import { ParsedQuery } from "#middleware/queryParser.js";
 
 export const createUser = async (req: Request<{}, {}, User>, res: Response) => {
@@ -20,7 +20,8 @@ export const getAllUsers = async (req: Request, res: Response) => {
     const { limit, page, filter, sort } = (req as any)
       .parsedQuery as ParsedQuery;
     const users = await userRepository.getAllUsers(limit, page, filter, sort);
-    res.status(200).json(users);
+    const totalCount = await UserModel.countDocuments(filter);
+    res.status(200).json({ items: users, total_count: totalCount });
   } catch (error) {
     console.log(error);
     res.status(500).json({

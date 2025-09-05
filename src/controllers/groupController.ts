@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as groupRepository from "#repositories/groupRepository.js";
-import { Group } from "#models/group.js";
+import { Group, GroupModel } from "#models/group.js";
 import { ParsedQuery } from "#middleware/queryParser.js";
 
 export const createGroup = async (
@@ -21,9 +21,15 @@ export const createGroup = async (
 export const getAllGroups = async (req: Request, res: Response) => {
   try {
     const { limit, page, filter, sort } = (req as any)
-          .parsedQuery as ParsedQuery;
-    const groups = await groupRepository.getAllGroups(limit, page, filter, sort );
-    res.status(200).json(groups);
+      .parsedQuery as ParsedQuery;
+    const groups = await groupRepository.getAllGroups(
+      limit,
+      page,
+      filter,
+      sort,
+    );
+    const totalCount = await GroupModel.countDocuments(filter);
+    res.status(200).json({ items: groups, total_count: totalCount });
   } catch (error) {
     console.log(error);
     res.status(500).json({

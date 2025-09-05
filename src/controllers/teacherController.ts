@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as teacherRepository from "#repositories/teacherRepository.js";
-import { Teacher } from "#models/teacher.js";
+import { Teacher, TeacherModel } from "#models/teacher.js";
 import { ParsedQuery } from "#middleware/queryParser.js";
 
 export const createTeacher = async (
@@ -28,7 +28,8 @@ export const getAllTeachers = async (req: Request, res: Response) => {
       filter,
       sort,
     );
-    res.status(200).json(teachers);
+    const totalCount = await TeacherModel.countDocuments(filter);
+    res.status(200).json({items: teachers, total_count: totalCount});
   } catch (error) {
     console.log(error);
     res.status(500).json({

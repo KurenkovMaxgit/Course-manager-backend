@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as workloadRepository from "#repositories/workloadRepository.js";
-import { Workload } from "#models/workload.js";
+import { Workload, WorkloadModel } from "#models/workload.js";
 import { FilterQuery, SortOrder } from "mongoose";
 import { Teacher } from "#models/teacher.js";
 import { ParsedQuery } from "#middleware/queryParser.js";
@@ -30,7 +30,8 @@ export const getAllWorkloads = async (req: Request, res: Response) => {
       filter,
       sort,
     );
-    res.status(200).json(workloads);
+    const totalCount = await WorkloadModel.countDocuments(filter);
+    res.status(200).json({ items: workloads, total_count: totalCount });
   } catch (error) {
     console.log(error);
     res.status(500).json({

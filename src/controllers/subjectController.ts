@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as subjectRepository from "#repositories/subjectRepository.js";
-import { Subject } from "#models/subject.js";
+import { Subject, SubjectModel } from "#models/subject.js";
 import { ParsedQuery } from "#middleware/queryParser.js";
 
 export const createSubject = async (
@@ -21,9 +21,15 @@ export const createSubject = async (
 export const getAllSubjects = async (req: Request, res: Response) => {
   try {
     const { limit, page, filter, sort } = (req as any)
-          .parsedQuery as ParsedQuery;
-    const subjects = await subjectRepository.getAllSubjects(limit, page, filter, sort );
-    res.status(200).json(subjects);
+      .parsedQuery as ParsedQuery;
+    const subjects = await subjectRepository.getAllSubjects(
+      limit,
+      page,
+      filter,
+      sort,
+    );
+    const totalCount = await SubjectModel.countDocuments(filter);
+    res.status(200).json({ items: subjects, total_count: totalCount });
   } catch (error) {
     console.log(error);
     res.status(500).json({
