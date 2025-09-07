@@ -9,12 +9,15 @@ export const getAllSubjects = async (
   limit: number,
   page: number,
   filter: FilterQuery<Subject> = {},
-  sort: Record<string, SortOrder>,
+  sort: Record<string, SortOrder> = { _id: -1 },
 ) => {
-  return await SubjectModel.find(filter)
-    .limit(limit)
-    .skip(page * limit)
-    .sort(sort);
+  let query = SubjectModel.find(filter).sort(sort);
+
+  if (typeof limit === "number" && typeof page === "number") {
+    query = query.skip((page) * limit).limit(limit);
+  }
+
+  return await query;
 };
 
 export const getSubjectById = async (id: string) => {

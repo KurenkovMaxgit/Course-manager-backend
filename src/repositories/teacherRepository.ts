@@ -8,15 +8,18 @@ export const createTeacher = async (input: Teacher) => {
 };
 
 export const getAllTeachers = async (
-  limit: number,
-  page: number,
+  limit?: number,
+  page?: number,
   filter: FilterQuery<Teacher> = {},
-  sort: Record<string, SortOrder>,
+  sort: Record<string, SortOrder> = { _id: -1 },
 ) => {
-  return await TeacherModel.find(filter)
-    .limit(limit)
-    .skip(page * limit)
-    .sort(sort);
+  let query = TeacherModel.find(filter).sort(sort);
+
+  if (typeof limit === "number" && typeof page === "number") {
+    query = query.skip((page) * limit).limit(limit);
+  }
+
+  return await query;
 };
 
 export const getTeacherById = async (id: string) => {

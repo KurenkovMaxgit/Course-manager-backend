@@ -14,8 +14,8 @@ export const queryParser = (
 ) => {
   const { limit, page, filter, sort } = req.query;
 
-  const parsedLimit = limit ? parseInt(limit as string) : 10;
-  const parsedPage = page ? parseInt(page as string) : 1;
+  const parsedLimit = limit ? parseInt(limit as string) : 0;
+  const parsedPage = page ? parseInt(page as string) : 0;
   let parsedFilter: Record<string, unknown> = {};
   if (filter) {
     try {

@@ -11,12 +11,15 @@ export const getAllGroups = async (
   limit: number,
   page: number,
   filter: FilterQuery<Group> = {},
-  sort: Record<string, SortOrder>,
+  sort: Record<string, SortOrder> = { _id: -1 },
 ) => {
-  return await GroupModel.find(filter)
-    .limit(limit)
-    .skip(page * limit)
-    .sort(sort);
+  let query = GroupModel.find(filter).sort(sort);
+
+  if (typeof limit === "number" && typeof page === "number") {
+    query = query.skip((page) * limit).limit(limit);
+  }
+
+  return await query;
 };
 
 export const getGroupById = async (id: string) => {

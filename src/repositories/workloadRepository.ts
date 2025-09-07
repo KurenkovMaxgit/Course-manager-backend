@@ -12,27 +12,46 @@ export const createWorkload = async (input: Workload) => {
 };
 
 export const getAllWorkloads = async (
-  limit: number,
-  page: number,
+  limit?: number,
+  page?: number,
   filter: FilterQuery<Workload> = {},
-  sort: Record<string, SortOrder>,
+  sort: Record<string, SortOrder> = { _id: -1 },
 ) => {
-  return await WorkloadModel.find(filter)
-    .limit(limit)
-    .skip(page * limit)
-    .sort(sort);
+  let query = WorkloadModel.find(filter).sort(sort);
+
+  if (typeof limit === "number" && typeof page === "number") {
+    query = query.skip((page) * limit).limit(limit);
+  }
+
+  return await query
+    .populate("teacher")
+    .populate("group")
+    .populate("subject")
+    .populate("type");
 };
 
 export const getWorkloadById = async (id: string) => {
-  return await WorkloadModel.findOne({ _id: id });
+  return await WorkloadModel.findOne({ _id: id })
+    .populate("teacher")
+    .populate("group")
+    .populate("subject")
+    .populate("type");
 };
 
 export const updateWorkloadById = async (id: string, input: Workload) => {
   hoursValidation(input.hours);
   NonNegativeNumberValidation(input.price);
-  return await WorkloadModel.findByIdAndUpdate(id, input, { new: true });
+  return await WorkloadModel.findByIdAndUpdate(id, input, { new: true })
+    .populate("teacher")
+    .populate("group")
+    .populate("subject")
+    .populate("type");
 };
 
 export const deleteWorkloadById = async (id: string) => {
-  return await WorkloadModel.findByIdAndDelete(id);
+  return await WorkloadModel.findByIdAndDelete(id)
+    .populate("teacher")
+    .populate("group")
+    .populate("subject")
+    .populate("type");
 };
