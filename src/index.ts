@@ -18,11 +18,11 @@ app.use(cors());
 
 app.use(express.json());
 app.use("/api", authRoutes);
-app.use("/api/group", groupRoutes);
-app.use("/lessonType/api", authentication, lessonTypeRoutes);
-app.use("/subject/api", subjectRoutes);
-app.use("/api/teacher", teacherRoutes);
-app.use("/workload/api", workloadRoutes);
+app.use("/api/group", authentication, groupRoutes);
+app.use("/api/lessonType", authentication, lessonTypeRoutes);
+app.use("/api/subject", authentication, subjectRoutes);
+app.use("/api/teacher", authentication, teacherRoutes);
+app.use("/api/workload", authentication, workloadRoutes);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running on port ${process.env.PORT}`),
