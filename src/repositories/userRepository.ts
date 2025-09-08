@@ -1,6 +1,5 @@
 import { User, UserModel } from "#models/user.js";
 import { FilterQuery, SortOrder } from "mongoose";
-// Some plain CRUD funcs
 
 export const createUser = async (input: User) => {
   const user = await getUserByEmail(input.email);
