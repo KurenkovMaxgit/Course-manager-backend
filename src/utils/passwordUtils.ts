@@ -14,14 +14,13 @@ export const hashPassword = (password: string) => {
   });
 };
 
-export const comparePasswords = (plainPassword: string, storedHash: string) => {
-  return new Promise((resolve, reject) => {
-    bcrypt.compare(plainPassword, storedHash, (err, isMatch) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(isMatch);
-      }
-    });
-  });
+export const comparePasswords = async (
+  plainPassword: string,
+  storedHash: string,
+): Promise<boolean> => {
+  try {
+    return await bcrypt.compare(plainPassword, storedHash);
+  } catch (error) {
+    throw error;
+  }
 };
