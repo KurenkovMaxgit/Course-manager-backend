@@ -14,6 +14,13 @@ This is the backend for the Course Manager application. It provides RESTful APIs
 - Workload management
 - API endpoints for CRUD operations
 
+## Tech stack
+1. Node.js
+3. TypeScript
+4. Express
+5. Mongoose
+6. Mongo DB
+
 ## Getting Started
 
 ### Prerequisites
@@ -45,3 +52,4 @@ This is the backend for the Course Manager application. It provides RESTful APIs
    npm start
   
 6. The backend should now be running at http://localhost:3000 (or the port configured in .env).
+7. Swagger UI can be accessed at [http://localhost:3000/api-docs](http://localhost:3000/api-docs/#/)
