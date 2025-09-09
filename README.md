@@ -10,9 +10,8 @@ This is the backend for the Course Manager application. It provides RESTful APIs
 
 ## Features
 
-- User authentication and authorization
-- Course and lesson management
-- Enrollment tracking
+- User authentication and authorization with JWT
+- Workload management
 - API endpoints for CRUD operations
 
 ## Getting Started
@@ -21,7 +20,7 @@ This is the backend for the Course Manager application. It provides RESTful APIs
 
 - [Node.js](https://nodejs.org/) (ensure you have the required version)
 - [npm](https://www.npmjs.com/)
-- A running MongoDB database (connection URL you can find in .env in Home work (Individual project) response)
+- A running MongoDB database
 
 ### Installation
 
@@ -37,12 +36,8 @@ This is the backend for the Course Manager application. It provides RESTful APIs
    npm install
 
 3. Set up environment variables:
-   - Copy .env from response
-
-4. Run database migrations (if any):
-    ```bash
-
-   npm run migrate 
+   - Add .env availible at Home work (Individual project) response
+     
 
 5. Start the development server:
     ```bash
